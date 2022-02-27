@@ -1,0 +1,33 @@
+
+.form-control:active{
+	box-shadow: none;
+    border-radius: 0.25rem;
+    color: black;
+    /*border: 2px solid green;*/
+}
+
+.is-invalid {
+  border: 1px solid red !important;
+}
+
+.form-control{
+	border: 1px solid black;
+	color: black;
+}
+
+
+.btn.selected{
+	margin-top: 15px;
+}
+
+.btn-success.selected{
+	margin-right: 2px;
+}
+
+.btn-danger.selected{
+	margin-left: 2px;
+}
+
+.editCancel{
+	margin-left: 4px;
+}

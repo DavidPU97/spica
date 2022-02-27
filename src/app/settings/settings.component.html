@@ -1,0 +1,46 @@
+<div class="container">
+    <form
+        (ngSubmit)="submit($event)"
+        [formGroup]="settingsForm">
+        <h3>Authorisation settings</h3>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="cid">Client ID: </label>
+                    <input type="text"
+                        class="form-control is-invalid"
+                        [ngClass]="{ 'is-invalid': submitted && settingsForm.controls.cid.errors }"
+                        id ="cid"
+                        formControlName="cid"
+                        placeholder="Client ID">
+                    <div *ngIf="submitted && settingsForm.controls.cid.errors" class="invalid-feedback">
+                        <div *ngIf="settingsForm.controls.cid.errors.required">Client ID is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="secret">Client secret: </label>
+                    <input type="text" 
+                        class="form-control is-invalid"
+                        [ngClass]="{ 'is-invalid': submitted && settingsForm.controls.secret.errors }"
+                        id="secret"
+                        formControlName="secret"
+                        placeholder="Client secret" 
+                    >
+                    <div *ngIf="submitted && settingsForm.controls.secret.errors" class="invalid-feedback">
+                        <div *ngIf="settingsForm.controls.secret.errors.required">Client secret is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col form-group">
+                <button type="submit" class="btn btn-success">SUBMIT</button>
+            </div>
+        </div>
+    </form>
+</div>
