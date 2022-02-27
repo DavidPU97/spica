@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, retry } from 'rxjs/operators';
 // @ts-ignore
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,13 @@ export class GeneralService {
   apiAuthUrl: string = 'https://login.allhours.com/connect/token';
   apiUrl:string = 'https://api4.allhours.com/';
 
-  getAuthToken(c_id: string, c_secret:string): Observable<any> {
-    // let body = {
-    //   client_id: c_id,
-    //   client_secret: c_secret,
-    //   grant_type: 'client_credentials',
-    //   scope: 'api'
-    // };
+  tokenValidity: Subject<boolean> = new Subject<boolean>();
+  usersListener: Subject<User[]> = new Subject<User[]>();
 
+  users: User[] = [];
+
+  // Authorisation token
+  getAuthToken(c_id: string, c_secret:string): Observable<any> {
     const body = new HttpParams()
         .set('grant_type', 'client_credentials')
         .set('scope', 'api')
@@ -40,18 +40,41 @@ export class GeneralService {
       );
   }
 
-  fetchUsers(): Observable<any> {
+  // get all users from api
+  fetchUsers() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         Authorization: 'Bearer '+localStorage.getItem('authToken')!
       })
     };
-
-    const usersURL = this.apiUrl+'api/v1/Users/Basic';
-    return this.http.get(usersURL, httpOptions).pipe(
+    const usersURL = this.apiUrl+'api/v1/Users';
+    this.http.get(usersURL, httpOptions).pipe(
         catchError(this.handleError) // then handle the error
-      );
+      ).subscribe({
+        next: (res:any) => {
+          this.convertUsers(res)
+          this.usersListener.next(this.users)
+        }
+      });
+  }
+
+  // send users to component
+  getUsers(){
+    return this.users.slice();
+  }
+
+  // toggle token alert component when obtaining auth token
+  sendTokenBool(validToken:boolean){
+    this.tokenValidity.next(validToken)
+  }
+
+
+  convertUsers(res:any){
+    this.users = [];
+    res.forEach((user:any) => {
+      this.users.push(new User(user.FirstName, user.LastName, user.Email))
+    });
   }
 
 

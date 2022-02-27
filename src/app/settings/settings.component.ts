@@ -34,6 +34,7 @@ export class SettingsComponent implements OnInit {
           console.log(new Date(now.getTime() + res.expires_in * 1000).toString())
           localStorage.setItem('authToken', res.access_token);
           localStorage.setItem('authTokenExpiration', (now.getTime() + res.expires_in * 1000).toString());
+          this.generalService.sendTokenBool(true)
         },
         error: (err:any) => {
           console.log(err);

@@ -1,15 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+// @ts-ignore
+import { Subscription } from 'rxjs/dist/types/internal/Subscription';
+import { GeneralService } from './general.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  implements OnInit {
+export class AppComponent  implements OnInit, OnDestroy {
   title = 'spica';
   validToken:boolean = false;
+  tokenSubscription!: Subscription
+
+  constructor(private generalService:GeneralService) { }
 
   ngOnInit(): void {
+    this.checkToken();
+    this.tokenSubscription = this.generalService.tokenValidity.subscribe({
+      next: (token:boolean) => {
+        this.validToken = token
+        this.checkToken()
+      }
+    })
+  }
+
+  ngOnDestroy():void {
+    if(!this.tokenSubscription){
+      return
+    }
+    this.tokenSubscription.unsubscribe();
+  }
+
+  checkToken(){
     const tokenExpiry = localStorage.getItem('authTokenExpiration')!
 
     // check if acces token exists
