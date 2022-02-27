@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { User } from 'src/app/user.model';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { GeneralService } from 'src/app/general.service';
@@ -20,30 +20,43 @@ export class UserTableComponent implements OnInit, OnDestroy  {
   users: User[] = [];
   columnsToDisplay = ['Name', 'Last name', 'E-mail'];
   
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatTable) table!: MatTable<any>;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
  
   dataSource!: MatTableDataSource<User>;
-  usersSubscription!: Subscription
+  usersSubscription!: Subscription;
+  userAddedSubscription!: Subscription;
   
 
   ngOnInit(): void {
 
     this.usersSubscription = this.generalService.usersListener.subscribe((users:User[]) => {
       this.users = users
-      this.dataSource = new MatTableDataSource<User>(this.users);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.filterPredicate = function (record,filter) {
-        return (record.name.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1 || (record.lastname.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1;
-      }
+      this.initMatTable()
       this.usersSubscription.unsubscribe();
     })
+
+    this.userAddedSubscription = this.generalService.userAdded.subscribe((user:User) => {
+      this.users.push(user)
+      console.log(this.users)
+      this.table.renderRows()
+    });
+
+    this.users = this.generalService.getUsers()
+    if(this.users.length == 0){
+      this.generalService.fetchUsers()
+    }
+    else{
+      this.initMatTable()
+    }
   }
 
   ngOnDestroy(): void {
-    if(!this.usersSubscription){
+    if(!this.usersSubscription || !this.userAddedSubscription){
       return
     }
+    this.userAddedSubscription.unsubscribe();
     this.usersSubscription.unsubscribe();
   }
 
@@ -57,6 +70,14 @@ export class UserTableComponent implements OnInit, OnDestroy  {
   search(e: Event){
     const searchValue = (e.target as HTMLInputElement).value;
     this.dataSource.filter = searchValue.trim().toLowerCase();
+  }
+
+  initMatTable(){
+    this.dataSource = new MatTableDataSource<User>(this.users);
+    // this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate = function (record,filter) {
+      return (record.name.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1 || (record.lastname.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1;
+    }
   }
 
 }

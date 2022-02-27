@@ -1,0 +1,62 @@
+<div class="container adduser">
+    <form
+        (ngSubmit)="submit($event)"
+        [formGroup]="addUserForm">
+        <h3>Add a user</h3>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="text"
+                        class="form-control is-invalid"
+                        [ngClass]="{ 'is-invalid': submitted && addUserForm.controls.name.errors }"
+                        id ="name"
+                        formControlName="name"
+                        placeholder="First name">
+                    <div *ngIf="submitted && addUserForm.controls.name.errors" class="invalid-feedback">
+                        <div *ngIf="addUserForm.controls.name.errors.required">First name is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="lastname">Last name: </label>
+                    <input type="text" 
+                        class="form-control is-invalid"
+                        [ngClass]="{ 'is-invalid': submitted && addUserForm.controls.lastname.errors }"
+                        id="lastname"
+                        formControlName="lastname"
+                        placeholder="Last name" 
+                    >
+                    <div *ngIf="submitted && addUserForm.controls.lastname.errors" class="invalid-feedback">
+                        <div *ngIf="addUserForm.controls.lastname.errors.required">Last name is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="email">E-mail: </label>
+                    <input type="text" 
+                        class="form-control is-invalid"
+                        [ngClass]="{ 'is-invalid': submitted && addUserForm.controls.email.errors }"
+                        id="email"
+                        formControlName="email"
+                        placeholder="E-mail" 
+                    >
+                    <div *ngIf="submitted && addUserForm.controls.email.errors" class="invalid-feedback">
+                        <div *ngIf="addUserForm.controls.email.errors.required">Last name is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group submitbtn">
+                <button type="submit" class="btn btn-success">SUBMIT</button>
+            </div>
+        </div>
+    </form>
+</div>
