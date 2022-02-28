@@ -1,7 +1,11 @@
 <div class="container">
     <!-- <button *ngIf="!alert" type="button" (click)="getUsers()" class="btn btn-success">Get users!</button> -->
-    <app-user-table></app-user-table>
-    <app-add-user></app-add-user>
+    <div *ngIf="positiveFeedback" class="alert alert-success" role="alert">
+        {{positiveFeedback}}
+    </div>
+    <app-user-table [hidden]="addUser || addAbsence" (addEmployeeClicked)="addUser=true; positiveFeedback='';" (addAbsenceClicked)="addAbsence=true; positiveFeedback='';"></app-user-table>
+    <app-add-user *ngIf="addUser && !addAbsence" (userClicked)="userFun($event)"></app-add-user>
+    <app-add-absence *ngIf="!addUser && addAbsence" (absenceClicked)="absenceFun($event)"></app-add-absence>
     <!-- <div  *ngIf="alert" class="alert alert-warning" role="alert">
         No autherisation token detected! Request denied
     </div> -->

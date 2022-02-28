@@ -1,14 +1,17 @@
-<div [hidden]="users.length == 0" class="mat-elevation-z8">
-    <!-- <label for="search">Search: </label>
-    <input type="text"
-        class="form-control"
-        id ="search"
-        placeholder="Client ID"> -->
-    
-    <mat-form-field id="search" appearance="standard" class="search">
-        <input matInput (keyup)="search($event)" placeholder="Search name or last name" #input>
-    </mat-form-field>
-    <div class="table">
+<h3>List of Employees</h3>
+<div [hidden]="users.length == 0">
+    <div class="row mb-3">
+        <div class="col-6">
+            <mat-form-field id="search" appearance="standard" class="search">
+                <input matInput (keyup)="search($event)" placeholder="Search name or last name" #input>
+            </mat-form-field>
+        </div>
+        <div class="col-6 d-flex justify-content-end pt-4">
+            <button type="button" class="btn btn-primary mx-3" (click)="addEmployeeClicked.emit('')">Add Employee</button>
+            <button type="button" class="btn btn-primary" (click)="addAbsenceClicked.emit('')">Input employee absence</button>
+        </div>
+    </div>
+    <div class="mat-elevation-z8 table">
         <table #table mat-table class="table table-striped" [dataSource]="dataSource">
             <ng-container matColumnDef="Name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>

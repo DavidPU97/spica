@@ -13,6 +13,9 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(private generalService:GeneralService) { }
 
+  addUser: boolean = false;
+  addAbsence: boolean = false;
+  positiveFeedback: String = "";
   // alert: boolean = false;
   // users: User[] = []
 
@@ -20,6 +23,17 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+
+  }
+
+  userFun(event: string){
+    this.addUser=false
+    this.positiveFeedback = event;
+  }
+
+  absenceFun(event: string){
+    this.addAbsence=false
+    this.positiveFeedback = event;
   }
 
   ngOnDestroy():void {

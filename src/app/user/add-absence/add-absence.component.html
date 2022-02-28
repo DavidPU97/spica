@@ -1,0 +1,97 @@
+<div class="container adduser mt-2">
+    <div class="row">
+        <div class="col-2">
+            <button type="button" (click)="absenceClicked.emit('')" class="btn btn-primary">Back</button>
+        </div>
+        <div class="col">
+            <form
+                (ngSubmit)="submit($event)"
+                [formGroup]="addAbsenceForm">
+                <h3>Add absence to an employee</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="employee">Employee: </label>
+                            <select class="form-select is-invalid" 
+                                aria-label="Default select example" 
+                                formControlName="employee"
+                                [ngClass]="{ 'is-invalid': submitted && addAbsenceForm.controls.employee.errors }"
+                                id ="employee">
+                                <option selected disabled>Select an employee</option>
+                                <option *ngFor="let employee of employees; let i = index;" [value]="i">{{employee.name}}</option>
+                            </select>
+                            <div *ngIf="submitted && addAbsenceForm.controls.employee.errors" class="invalid-feedback">
+                                <div *ngIf="addAbsenceForm.controls.employee.errors.required">Employee is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="absence">Reason for absence: </label>
+                            <select class="form-select is-invalid" 
+                                aria-label="Default select example" 
+                                formControlName="absence"
+                                [ngClass]="{ 'is-invalid': submitted && addAbsenceForm.controls.absence.errors }"
+                                id ="absence">
+                                <option selected disabled>Select absence</option>
+                                <option *ngFor="let a of absenceDefinitions; let j = index;" [value]="j">{{a.name}}</option>
+                            </select>
+                            <div *ngIf="submitted && addAbsenceForm.controls.absence.errors" class="invalid-feedback">
+                                <div *ngIf="addAbsenceForm.controls.absence.errors.required">Absence is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <p>Absence duration: </p>
+                            <mat-form-field appearance="fill" class="datepicker" [ngClass]="{ 'is-invalid': submitted && addAbsenceForm.controls.dateStart.errors }">
+                                <mat-label>Enter a date range</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                  <input matStartDate formControlName="dateStart" placeholder="Start date">
+                                  <input matEndDate formControlName="dateEnd" placeholder="End date">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                              
+                                <mat-error *ngIf="addAbsenceForm.controls.dateStart.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                                <mat-error *ngIf="addAbsenceForm.controls.dateEnd.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                            </mat-form-field>
+                              
+                            <!-- <p>Selected range: {{addAbsenceForm.value | json}}</p> -->
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                            <div *ngIf="submitted && (addAbsenceForm.controls.dateStart.errors || addAbsenceForm.controls.dateEnd.errors)" class="invalid-feedback">
+                                <div *ngIf="addAbsenceForm.controls.dateStart.errors || addAbsenceForm.controls.dateEnd.errors">Date range is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="comment">Comment: </label>
+                            <textarea type="text" 
+                                class="form-control is-invalid"
+                                [ngClass]="{ 'is-invalid': submitted && addAbsenceForm.controls.comment.errors }"
+                                id="comment"
+                                formControlName="comment"
+                                placeholder="Write a comment" 
+                            ></textarea>
+                            <div *ngIf="submitted && addAbsenceForm.controls.comment.errors" class="invalid-feedback">
+                                <div *ngIf="addAbsenceForm.controls.comment.errors.required">Comment is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group mt-3">
+                        <button type="submit" class="btn btn-success">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

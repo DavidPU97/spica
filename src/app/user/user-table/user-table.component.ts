@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/user.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
@@ -23,11 +23,14 @@ export class UserTableComponent implements OnInit, OnDestroy  {
   @ViewChild(MatTable) table!: MatTable<any>;
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  // @Output() newItemEvent = new EventEmitter<boolean>();
+
+  @Output() addEmployeeClicked = new EventEmitter<string>();
+  @Output() addAbsenceClicked = new EventEmitter<string>();
  
   dataSource!: MatTableDataSource<User>;
   usersSubscription!: Subscription;
   userAddedSubscription!: Subscription;
-  
 
   ngOnInit(): void {
 
@@ -39,7 +42,7 @@ export class UserTableComponent implements OnInit, OnDestroy  {
 
     this.userAddedSubscription = this.generalService.userAdded.subscribe((user:User) => {
       this.users.push(user)
-      console.log(this.users)
+      // console.log(this.users)
       this.table.renderRows()
     });
 
@@ -79,5 +82,6 @@ export class UserTableComponent implements OnInit, OnDestroy  {
       return (record.name.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1 || (record.lastname.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1;
     }
   }
+
 
 }
