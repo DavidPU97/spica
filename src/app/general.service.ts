@@ -53,10 +53,14 @@ export class GeneralService {
 
   // get all users from api
   fetchUsers() {
+    const token:string = localStorage.getItem('authToken')!
+    if(!token){
+      return
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer '+localStorage.getItem('authToken')!
+        Authorization: 'Bearer '+ token
       })
     };
     const usersURL = this.apiUrl+'api/v1/Users';
@@ -71,11 +75,15 @@ export class GeneralService {
   }
 
   addUser(user: User) {
+    const token:string = localStorage.getItem('authToken')!
+    if(!token){
+      return
+    }
 		const usersURL = this.apiUrl+'api/v1/Users';
 		const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer '+localStorage.getItem('authToken')!
+        Authorization: 'Bearer '+ token
       })
     };
     let body = {
@@ -107,10 +115,14 @@ export class GeneralService {
   // ABSENCES
 
   fetchAbsenceDefinitions() {
+    const token:string = localStorage.getItem('authToken')!
+    if(!token){
+      return
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer '+localStorage.getItem('authToken')!
+        Authorization: 'Bearer '+ token
       })
     };
     const usersURL = this.apiUrl+'api/v1/AbsenceDefinitions';
@@ -126,10 +138,14 @@ export class GeneralService {
   }
 
   fetchAbsences() {
+    const token:string = localStorage.getItem('authToken')!
+    if(!token){
+      return
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer '+localStorage.getItem('authToken')!
+        Authorization: 'Bearer '+ token
       })
     };
     const usersURL = this.apiUrl+'api/v1/Absences';
@@ -147,11 +163,15 @@ export class GeneralService {
   }
 
   addAbsence(absence:Absence){
+    const token:string = localStorage.getItem('authToken')!
+    if(!token){
+      return
+    }
     const usersURL = this.apiUrl+'api/v1/Absences';
 		const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        Authorization: 'Bearer '+localStorage.getItem('authToken')!
+        Authorization: 'Bearer '+ token
       })
     };
     let body = {

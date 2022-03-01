@@ -79,7 +79,21 @@ export class UserTableComponent implements OnInit, OnDestroy  {
     this.dataSource = new MatTableDataSource<User>(this.users);
     // this.dataSource.paginator = this.paginator;
     this.dataSource.filterPredicate = function (record,filter) {
-      return (record.name.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1 || (record.lastname.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase())) > -1;
+      let name = record.name.toLocaleLowerCase()
+      let lastname = record.lastname.toLocaleLowerCase()
+      if((name.indexOf(filter.toLocaleLowerCase())) > -1){
+        return true;
+      }
+      else if((lastname.indexOf(filter.toLocaleLowerCase())) > -1){
+        return true;
+      }
+      else if((name+' '+lastname).indexOf(filter.toLocaleLowerCase()) > -1){
+        return true;
+      }
+      else if((lastname+' '+name).indexOf(filter.toLocaleLowerCase()) > -1){
+        return true;
+      }
+      return false;
     }
   }
 
