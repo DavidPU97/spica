@@ -15,6 +15,10 @@ import { MatTableModule } from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
+import { AddUserComponent } from './user/add-user/add-user.component';
+import { AddAbsenceComponent } from './user/add-absence/add-absence.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,9 @@ import {MatInputModule} from '@angular/material/input';
     UserComponent,
     AbsenceComponent,
     TokenAlertComponent,
-    UserTableComponent
+    UserTableComponent,
+    AddUserComponent,
+    AddAbsenceComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,9 @@ import {MatInputModule} from '@angular/material/input';
     MatTableModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
